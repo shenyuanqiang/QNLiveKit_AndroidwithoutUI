@@ -28,6 +28,16 @@
             android:layout_marginLeft="10dp"
             android:onClick="onClickLive"
             />
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刷新"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:onClick="onClickRefresh"
+            android:layout_alignParentRight="true"
+            />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

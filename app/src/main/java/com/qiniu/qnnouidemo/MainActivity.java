@@ -56,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
         rv=findViewById(R.id.rv);
         adapter=new StringAdapter(this);
         rv.setAdapter(adapter);
+        onClickRefresh(null);
+    }
+    public void onClickLive(View view){
+//创建房间
+        QCreateRoomParam param = new QCreateRoomParam();
+        param.title="testlive-"+formatTime(System.currentTimeMillis());
+        QLive.getRooms().createRoom(param, new QLiveCallBack<QLiveRoomInfo>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(QLiveRoomInfo qLiveRoomInfo) {
+                Log.e("==","拉流地址="+qLiveRoomInfo.rtmpURL);
+                Intent intent=new Intent(MainActivity.this, LivePublishActivity.class);
+                intent.putExtra("data",qLiveRoomInfo);
+                startActivity(intent);
+            }
+        });
+    }
+    //刷新
+    public void onClickRefresh(View view){
         QLive.getRooms().listRoom(1, 100, new QLiveCallBack<List<QLiveRoomInfo>>() {
             @Override
             public void onError(int i, String s) {
@@ -70,24 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 for(QLiveRoomInfo item:qLiveRoomInfos){
                     Log.e("==",item.title+"="+item);
                 }
-            }
-        });
-    }
-    public void onClickLive(View view){
-//创建房间
-        QCreateRoomParam param = new QCreateRoomParam();
-        param.title="testlive-"+formatTime(System.currentTimeMillis());
-        QLive.getRooms().createRoom(param, new QLiveCallBack<QLiveRoomInfo>() {
-            @Override
-            public void onError(int i, String s) {
-
-            }
-
-            @Override
-            public void onSuccess(QLiveRoomInfo qLiveRoomInfo) {
-                Intent intent=new Intent(MainActivity.this, LivePublishActivity.class);
-                intent.putExtra("data",qLiveRoomInfo);
-                startActivity(intent);
             }
         });
     }
